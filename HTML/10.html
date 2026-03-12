@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Learn CSS – Interactive Guide</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+  :root {
+
+    --bg: #0d0d0f;
+
+    --surface: #16161a;
+
+    --surface2: #1e1e24;
+
+    --accent: #7c3aed;
+
+    --accent2: #f59e0b;
+
+    --accent3: #10b981;
+
+    --text: #e8e8f0;
+
+    --muted: #6b6b80;
+
+    --code-bg: #0a0a0c;
+
+    --border: #2a2a35;
+
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+
+    background: var(--bg);
+
+    color: var(--text);
+
+    font-family: 'Sora', sans-serif;
+
+    line-height: 1.7;
+
+    min-height: 100vh;
+
+  }
+
+  /* ── Hero ── */
+
+  .hero {
+
+    padding: 80px 40px 60px;
+
+    text-align: center;
+
+    position: relative;
+
+    overflow: hidden;
+
+  }
+
+  .hero::before {
+
+    content: '';
+
+    position: absolute;
+
+    inset: 0;
+
+    background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(124,58,237,.25) 0%, transparent 70%);
+
+    pointer-events: none;
+
+  }
+
+  .hero h1 {
+
+    font-size: clamp(2.4rem, 6vw, 4rem);
+
+    font-weight: 700;
+
+    letter-spacing: -.03em;
+
+    background: linear-gradient(135deg, #a78bfa 0%, #f59e0b 100%);
+
+    -webkit-background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+
+    background-clip: text;
+
+    margin-bottom: 16px;
+
+  }
+
+  .hero p {
+
+    font-size: 1.1rem;
+
+    color: var(--muted);
+
+    max-width: 520px;
+
+    margin: 0 auto;
+
+  }
+
+  .badge {
+
+    display: inline-block;
+
+    background: rgba(124,58,237,.15);
+
+    border: 1px solid rgba(124,58,237,.4);
+
+    color: #a78bfa;
+
+    font-size: .75rem;
+
+    font-family: 'Space Mono', monospace;
+
+    padding: 4px 12px;
+
+    border-radius: 20px;
+
+    margin-bottom: 20px;
+
+    letter-spacing: .08em;
+
+    text-transform: uppercase;
+
+  }
+
+  /* ── Layout ── */
+
+  .container { max-width: 900px; margin: 0 auto; padding: 0 24px 100px; }
+
+  /* ── Section Headers ── */
+
+  .section-label {
+
+    font-family: 'Space Mono', monospace;
+
+    font-size: .7rem;
+
+    color: var(--accent);
+
+    letter-spacing: .15em;
+
+    text-transform: uppercase;
+
+    margin-bottom: 8px;
+
+  }
+
+  .section-title {
+
+    font-size: 1.6rem;
+
+    font-weight: 700;
+
+    margin-bottom: 8px;
+
+  }
+
+  .section-desc { color: var(--muted); font-size: .95rem; margin-bottom: 32px; }
+
+  /* ── Lesson Cards ── */
+
+  .lesson {
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: 16px;
+
+    margin-bottom: 28px;
+
+    overflow: hidden;
+
+    transition: border-color .2s;
+
+  }
+
+  .lesson:hover { border-color: rgba(124,58,237,.5); }
+
+  .lesson-header {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 16px;
+
+    padding: 22px 26px;
+
+    cursor: pointer;
+
+    user-select: none;
+
+  }
+
+  .lesson-num {
+
+    width: 36px; height: 36px;
+
+    border-radius: 10px;
+
+    background: rgba(124,58,237,.15);
+
+    border: 1px solid rgba(124,58,237,.3);
+
+    display: flex; align-items: center; justify-content: center;
+
+    font-family: 'Space Mono', monospace;
+
+    font-size: .8rem;
+
+    color: #a78bfa;
+
+    flex-shrink: 0;
+
+  }
+
+  .lesson-title { font-weight: 600; font-size: 1.05rem; }
+
+  .lesson-tag {
+
+    margin-left: auto;
+
+    font-size: .7rem;
+
+    font-family: 'Space Mono', monospace;
+
+    padding: 3px 10px;
+
+    border-radius: 20px;
+
+    flex-shrink: 0;
+
+  }
+
+  .tag-beginner { background: rgba(16,185,129,.1); color: #6ee7b7; border: 1px solid rgba(16,185,129,.25); }
+
+  .tag-core { background: rgba(245,158,11,.1); color: #fcd34d; border: 1px solid rgba(245,158,11,.25); }
+
+  .tag-layout { background: rgba(59,130,246,.1); color: #93c5fd; border: 1px solid rgba(59,130,246,.25); }
+
+  .toggle-icon {
+
+    margin-left: 8px;
+
+    color: var(--muted);
+
+    transition: transform .25s;
+
+    font-size: 1.1rem;
+
+  }
+
+  .lesson.open .toggle-icon { transform: rotate(90deg); }
+
+  .lesson-body {
+
+    display: none;
+
+    padding: 0 26px 26px;
+
+    border-top: 1px solid var(--border);
+
+    animation: fadeIn .2s ease;
+
+  }
+
+  .lesson.open .lesson-body { display: block; }
+
+  @keyframes fadeIn { from { opacity:0; transform: translateY(-6px); } to { opacity:1; transform: none; } }
+
+  .explanation { color: #c4c4d4; font-size: .95rem; margin: 18px 0 16px; line-height: 1.8; }
+
+  /* ── Code Block ── */
+
+  .code-block {
+
+    background: var(--code-bg);
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    margin-bottom: 16px;
+
+  }
+
+  .code-bar {
+
+    display: flex; align-items: center;
+
+    padding: 10px 16px;
+
+    background: rgba(255,255,255,.03);
+
+    border-bottom: 1px solid var(--border);
+
+    gap: 8px;
+
+  }
+
+  .dot { width:10px; height:10px; border-radius:50%; }
+
+  .dot-r { background:#ff5f57; }
+
+  .dot-y { background:#ffbd2e; }
+
+  .dot-g { background:#28c840; }
+
+  .code-filename {
+
+    margin-left: 8px;
+
+    font-family: 'Space Mono', monospace;
+
+    font-size: .72rem;
+
+    color: var(--muted);
+
+  }
+
+  pre {
+
+    padding: 18px 20px;
+
+    overflow-x: auto;
+
+    font-family: 'Space Mono', monospace;
+
+    font-size: .82rem;
+
+    line-height: 1.75;
+
+    color: #cdd6f4;
+
+  }
+
+  .kw { color: #cba6f7; }
+
+  .prop { color: #89dceb; }
+
+  .val { color: #a6e3a1; }
+
+  .sel { color: #f38ba8; }
+
+  .cm { color: #585b70; font-style: italic; }
+
+  .str { color: #f9e2af; }
+
+  /* ── Live Preview ── */
+
+  .preview-label {
+
+    font-family: 'Space Mono', monospace;
+
+    font-size: .68rem;
+
+    color: var(--muted);
+
+    text-transform: uppercase;
+
+    letter-spacing: .1em;
+
+    margin: 18px 0 10px;
+
+    display: flex; align-items: center; gap: 8px;
+
+  }
+
+  .preview-label::before {
+
+    content: '▶';
+
+    color: var(--accent3);
+
+    font-size: .65rem;
+
+  }
+
+  .preview-box {
+
+    background: #fff;
+
+    border-radius: 10px;
+
+    padding: 24px;
+
+    min-height: 80px;
+
+  }
+
+  /* ── Tip box ── */
+
+  .tip {
+
+    margin-top: 16px;
+
+    padding: 14px 18px;
+
+    background: rgba(245,158,11,.07);
+
+    border-left: 3px solid var(--accent2);
+
+    border-radius: 0 8px 8px 0;
+
+    font-size: .88rem;
+
+    color: #d4c17a;
+
+  }
+
+  .tip strong { color: var(--accent2); }
+
+  /* ── Divider ── */
+
+  .divider { height: 1px; background: var(--border); margin: 52px 0 48px; }
+
+  /* ── Cheat Sheet ── */
+
+  .cheat-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+
+    gap: 14px;
+
+    margin-top: 24px;
+
+  }
+
+  .cheat-card {
+
+    background: var(--surface2);
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    padding: 16px 18px;
+
+  }
+
+  .cheat-card h4 {
+
+    font-family: 'Space Mono', monospace;
+
+    font-size: .78rem;
+
+    color: var(--accent2);
+
+    margin-bottom: 10px;
+
+    letter-spacing: .05em;
+
+    text-transform: uppercase;
+
+  }
+
+  .cheat-card ul { list-style: none; }
+
+  .cheat-card li {
+
+    font-family: 'Space Mono', monospace;
+
+    font-size: .76rem;
+
+    color: #9999b3;
+
+    padding: 3px 0;
+
+    border-bottom: 1px solid rgba(255,255,255,.04);
+
+  }
+
+  .cheat-card li:last-child { border-bottom: none; }
+
+  .cheat-card li span { color: #a6e3a1; float: right; }
+
+  /* Next steps */
+
+  .next-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+
+    gap: 14px;
+
+    margin-top: 24px;
+
+  }
+
+  .next-card {
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    padding: 20px;
+
+    text-align: center;
+
+    transition: border-color .2s, transform .2s;
+
+    cursor: default;
+
+  }
+
+  .next-card:hover { border-color: rgba(124,58,237,.5); transform: translateY(-3px); }
+
+  .next-card .icon { font-size: 1.8rem; margin-bottom: 10px; }
+
+  .next-card h4 { font-size: .95rem; margin-bottom: 6px; }
+
+  .next-card p { font-size: .8rem; color: var(--muted); }
+
+</style>
+
+</head>
+
+<body>
+
+<div class="hero">
+
+  <div class="badge">Interactive Guide</div>
+
+  <h1>Learn CSS</h1>
+
+  <p>Master the building blocks of web styling — from selectors to layouts, with live examples.</p>
+
+</div>
+
+<div class="container">
+
+  <!-- ── BASICS ── -->
+
+  <div class="section-label">Chapter 01</div>
+
+  <div class="section-title">CSS Fundamentals</div>
+
+  <p class="section-desc">Click each lesson to expand it and see the live result.</p>
+
+  <!-- Lesson 1 -->
+
+  <div class="lesson" id="l1">
+
+    <div class="lesson-header" onclick="toggle('l1')">
+
+      <div class="lesson-num">01</div>
+
+      <div class="lesson-title">What is CSS? — Selectors & Rules</div>
+
+      <div class="lesson-tag tag-beginner">Beginner</div>
+
+      <span class="toggle-icon">›</span>
+
+    </div>
+
+    <div class="lesson-body">
+
+      <div class="explanation">
+
+        CSS stands for <strong>Cascading Style Sheets</strong>. You write <em>rules</em> that select HTML elements and apply styles to them.<br><br>
+
+        A rule has two parts: a <strong>selector</strong> (which element?) and a <strong>declaration block</strong> (what style?).
+
+      </div>
+
+      <div class="code-block">
+
+        <div class="code-bar"><span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span><span class="code-filename">style.css</span></div>
+
+        <pre><span class="cm">/* selector  { property: value; } */</span>
+
+<span class="sel">h1</span> {
+
+  <span class="prop">color</span>: <span class="val">tomato</span>;
+
+  <span class="prop">font-size</span>: <span class="val">32px</span>;
+
+}
+
+<span class="sel">p</span> {
+
+  <span class="prop">color</span>: <span class="val">#444</span>;
+
+  <span class="prop">font-size</span>: <span class="val">16px</span>;
+
+}
+
+<span class="sel">.highlight</span> {          <span class="cm">/* class selector */</span>
+
+  <span class="prop">background-color</span>: <span class="val">yellow</span>;
+
+}
+
+<span class="sel">#main-title</span> {         <span class="cm">/* id selector */</span>
+
+  <span class="prop">text-decoration</span>: <span class="val">underline</span>;
+
+}</pre>
+
+      </div>
+
+      <div class="preview-label">Live Preview</div>
+
+      <div class="preview-box">
+
+        <h1 style="color:tomato;font-size:28px;font-family:sans-serif;">Hello, CSS!</h1>
+
+        <p style="color:#444;font-size:15px;font-family:sans-serif;margin-top:8px;">This paragraph is styled with CSS.</p>
+
+        <p style="color:#444;font-size:15px;font-family:sans-serif;margin-top:6px;">This word is <span style="background:yellow;">highlighted</span> using a class.</p>
+
+      </div>
+
+      <div class="tip"><strong>💡 Tip:</strong> Use <code>.</code> for classes (reusable) and <code>#</code> for IDs (unique per page).</div>
+
+    </div>
+
+  </div>
+
+  <!-- Lesson 2 -->
+
+  <div class="lesson" id="l2">
+
+    <div class="lesson-header" onclick="toggle('l2')">
+
+      <div class="lesson-num">02</div>
+
+      <div class="lesson-title">Colors & Backgrounds</div>
+
+      <div class="lesson-tag tag-beginner">Beginner</div>
+
+      <span class="toggle-icon">›</span>
+
+    </div>
+
+    <div class="lesson-body">
+
+      <div class="explanation">
+
+        Colors can be written in many formats: <strong>named</strong> (red), <strong>hex</strong> (#ff0000), <strong>RGB</strong> (rgb(255,0,0)) or <strong>HSL</strong> (hsl(0,100%,50%)).
+
+      </div>
+
+      <div class="code-block">
+
+        <div class="code-bar"><span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span><span class="code-filename">style.css</span></div>
+
+        <pre><span class="sel">.box</span> {
+
+  <span class="prop">background-color</span>: <span class="val">#3b82f6</span>;   <span class="cm">/* hex */</span>
+
+  <span class="prop">color</span>: <span class="val">white</span>;
+
+  <span class="prop">padding</span>: <span class="val">20px</span>;
+
+}
+
+<span class="sel">.gradient-box</span> {
+
+  <span class="prop">background</span>: <span class="val">linear-gradient(135deg, #6366f1, #ec4899)</span>;
+
+  <span class="prop">color</span>: <span class="val">white</span>;
+
+  <span class="prop">padding</span>: <span class="val">20px</span>;
+
+}</pre>
+
+      </div>
+
+      <div class="preview-label">Live Preview</div>
+
+      <div class="preview-box" style="display:flex;gap:12px;flex-wrap:wrap;">
+
+        <div style="background:#3b82f6;color:white;padding:16px 20px;border-radius:8px;font-family:sans-serif;font-size:14px;">Solid color box</div>
+
+        <div style="background:linear-gradient(135deg,#6366f1,#ec4899);color:white;padding:16px 20px;border-radius:8px;font-family:sans-serif;font-size:14px;">Gradient box</div>
+
+        <div style="background:rgba(16,185,129,0.15);border:2px solid #10b981;color:#065f46;padding:16px 20px;border-radius:8px;font-family:sans-serif;font-size:14px;">Transparent box</div>
+
+      </div>
+
+      <div class="tip"><strong>💡 Tip:</strong> Use <code>rgba(0,0,0,0.5)</code> for semi-transparent colors — the last number (0–1) controls opacity.</div>
+
+    </div>
+
+  </div>
+
+  <!-- Lesson 3 -->
+
+  <div class="lesson" id="l3">
+
+    <div class="lesson-header" onclick="toggle('l3')">
+
+      <div class="lesson-num">03</div>
+
+      <div class="lesson-title">The Box Model — Padding, Margin & Border</div>
+
+      <div class="lesson-tag tag-core">Core</div>
+
+      <span class="toggle-icon">›</span>
+
+    </div>
+
+    <div class="lesson-body">
+
+      <div class="explanation">
+
+        Every HTML element is a <strong>rectangular box</strong>. The box model describes its four layers (from inside out):<br>
+
+        <strong>content → padding → border → margin</strong>
+
+      </div>
+
+      <div class="code-block">
+
+        <div class="code-bar"><span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span><span class="code-filename">style.css</span></div>
+
+        <pre><span class="sel">.card</span> {
+
+  <span class="prop">width</span>: <span class="val">200px</span>;
+
+  <span class="prop">padding</span>: <span class="val">20px</span>;          <span class="cm">/* space inside */</span>
+
+  <span class="prop">border</span>: <span class="val">2px solid #6366f1</span>;
+
+  <span class="prop">margin</span>: <span class="val">16px</span>;           <span class="cm">/* space outside */</span>
+
+  <span class="prop">border-radius</span>: <span class="val">10px</span>;   <span class="cm">/* rounded corners */</span>
+
+  <span class="prop">box-sizing</span>: <span class="val">border-box</span>; <span class="cm">/* include padding in width */</span>
+
+}</pre>
+
+      </div>
+
+      <div class="preview-label">Live Preview</div>
+
+      <div class="preview-box" style="display:flex;align-items:flex-start;gap:4px;flex-wrap:wrap;">
+
+        <div style="width:200px;padding:20px;border:2px solid #6366f1;margin:8px;border-radius:10px;box-sizing:border-box;font-family:sans-serif;font-size:13px;color:#333;">
+
+          <strong>Card</strong><br>padding keeps text away from border. margin keeps cards apart.
+
+        </div>
+
+        <div style="width:200px;padding:8px;border:2px solid #ec4899;margin:8px;border-radius:10px;box-sizing:border-box;font-family:sans-serif;font-size:13px;color:#333;">
+
+          <strong>Small padding</strong><br>Less breathing room inside.
+
+        </div>
+
+      </div>
+
+      <div class="tip"><strong>💡 Tip:</strong> Always set <code>box-sizing: border-box</code> on everything — it makes sizing much more predictable.</div>
+
+    </div>
+
+  </div>
+
+  <!-- Lesson 4 -->
+
+  <div class="lesson" id="l4">
+
+    <div class="lesson-header" onclick="toggle('l4')">
+
+      <div class="lesson-num">04</div>
+
+      <div class="lesson-title">Typography — Fonts, Size & Spacing</div>
+
+      <div class="lesson-tag tag-core">Core</div>
+
+      <span class="toggle-icon">›</span>
+
+    </div>
+
+    <div class="lesson-body">
+
+      <div class="explanation">
+
+        Control how text looks with <code>font-family</code>, <code>font-size</code>, <code>font-weight</code>, <code>line-height</code>, and <code>letter-spacing</code>.
+
+      </div>
+
+      <div class="code-block">
+
+        <div class="code-bar"><span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span><span class="code-filename">style.css</span></div>
+
+        <pre><span class="sel">body</span> {
+
+  <span class="prop">font-family</span>: <span class="val">'Georgia', serif</span>;
+
+  <span class="prop">font-size</span>: <span class="val">16px</span>;
+
+  <span class="prop">line-height</span>: <span class="val">1.6</span>;
+
+}
+
+<span class="sel">h1</span> {
+
+  <span class="prop">font-size</span>: <span class="val">2.5rem</span>;     <span class="cm">/* rem = relative to root */</span>
+
+  <span class="prop">font-weight</span>: <span class="val">700</span>;
+
+  <span class="prop">letter-spacing</span>: <span class="val">-0.03em</span>;
+
+  <span class="prop">text-transform</span>: <span class="val">uppercase</span>;
+
+}</pre>
+
+      </div>
+
+      <div class="preview-label">Live Preview</div>
+
+      <div class="preview-box">
+
+        <p style="font-family:Georgia,serif;font-size:13px;line-height:1.9;color:#555;">Normal body text — readable line-height makes paragraphs comfortable.</p>
+
+        <h2 style="font-family:sans-serif;font-size:26px;font-weight:700;letter-spacing:-0.03em;color:#111;margin-top:12px;">Bold Heading</h2>
+
+        <p style="font-family:monospace;font-size:13px;color:#7c3aed;margin-top:8px;letter-spacing:.1em;">MONOSPACE TRACKING</p>
+
+      </div>
+
+      <div class="tip"><strong>💡 Tip:</strong> Use <code>rem</code> units for font sizes — they scale nicely when users change their browser font size.</div>
+
+    </div>
+
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ── LAYOUT ── -->
+
+  <div class="section-label">Chapter 02</div>
+
+  <div class="section-title">Layout</div>
+
+  <p class="section-desc">Two modern systems rule CSS layout: Flexbox and Grid.</p>
+
+  <!-- Lesson 5 -->
+
+  <div class="lesson" id="l5">
+
+    <div class="lesson-header" onclick="toggle('l5')">
+
+      <div class="lesson-num">05</div>
+
+      <div class="lesson-title">Flexbox — 1D Layouts</div>
+
+      <div class="lesson-tag tag-layout">Layout</div>
+
+      <span class="toggle-icon">›</span>
+
+    </div>
+
+    <div class="lesson-body">
+
+      <div class="explanation">
+
+        <strong>Flexbox</strong> arranges items in a single row or column. Use it for navbars, card rows, and centering things.
+
+      </div>
+
+      <div class="code-block">
+
+        <div class="code-bar"><span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span><span class="code-filename">style.css</span></div>
+
+        <pre><span class="sel">.flex-container</span> {
+
+  <span class="prop">display</span>: <span class="val">flex</span>;
+
+  <span class="prop">justify-content</span>: <span class="val">space-between</span>; <span class="cm">/* horizontal */</span>
+
+  <span class="prop">align-items</span>: <span class="val">center</span>;            <span class="cm">/* vertical */</span>
+
+  <span class="prop">gap</span>: <span class="val">16px</span>;
+
+}
+
+<span class="sel">.flex-item</span> {
+
+  <span class="prop">flex</span>: <span class="val">1</span>;   <span class="cm">/* grow equally */</span>
+
+}</pre>
+
+      </div>
+
+      <div class="preview-label">Live Preview</div>
+
+      <div class="preview-box">
+
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">
+
+          <div style="flex:1;background:#e0e7ff;padding:14px;border-radius:8px;text-align:center;font-family:sans-serif;font-size:13px;color:#3730a3;min-width:60px;">Item 1</div>
+
+          <div style="flex:1;background:#ede9fe;padding:14px;border-radius:8px;text-align:center;font-family:sans-serif;font-size:13px;color:#6d28d9;min-width:60px;">Item 2</div>
+
+          <div style="flex:1;background:#fce7f3;padding:14px;border-radius:8px;text-align:center;font-family:sans-serif;font-size:13px;color:#9d174d;min-width:60px;">Item 3</div>
+
+        </div>
+
+        <div style="display:flex;justify-content:center;align-items:center;height:60px;margin-top:12px;background:#f0fdf4;border-radius:8px;">
+
+          <span style="font-family:sans-serif;font-size:13px;color:#166534;">↑ This text is perfectly centered with flex ↑</span>
+
+        </div>
+
+      </div>
+
+      <div class="tip"><strong>💡 Tip:</strong> <code>justify-content</code> works along the main axis; <code>align-items</code> works along the cross axis.</div>
+
+    </div>
+
+  </div>
+
+  <!-- Lesson 6 -->
+
+  <div class="lesson" id="l6">
+
+    <div class="lesson-header" onclick="toggle('l6')">
+
+      <div class="lesson-num">06</div>
+
+      <div class="lesson-title">CSS Grid — 2D Layouts</div>
+
+      <div class="lesson-tag tag-layout">Layout</div>
+
+      <span class="toggle-icon">›</span>
+
+    </div>
+
+    <div class="lesson-body">
+
+      <div class="explanation">
+
+        <strong>CSS Grid</strong> lets you design rows <em>and</em> columns at the same time — perfect for page layouts and dashboards.
+
+      </div>
+
+      <div class="code-block">
+
+        <div class="code-bar"><span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span><span class="code-filename">style.css</span></div>
+
+        <pre><span class="sel">.grid</span> {
+
+  <span class="prop">display</span>: <span class="val">grid</span>;
+
+  <span class="prop">grid-template-columns</span>: <span class="val">repeat(3, 1fr)</span>;
+
+  <span class="prop">gap</span>: <span class="val">12px</span>;
+
+}
+
+<span class="sel">.span-2</span> {
+
+  <span class="prop">grid-column</span>: <span class="val">span 2</span>;  <span class="cm">/* takes 2 columns */</span>
+
+}</pre>
+
+      </div>
+
+      <div class="preview-label">Live Preview</div>
+
+      <div class="preview-box">
+
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
+
+          <div style="background:#fef3c7;padding:14px;border-radius:8px;text-align:center;font-family:sans-serif;font-size:12px;color:#92400e;">1</div>
+
+          <div style="background:#fef3c7;padding:14px;border-radius:8px;text-align:center;font-family:sans-serif;font-size:12px;color:#92400e;">2</div>
+
+          <div style="background:#fef3c7;padding:14px;border-radius:8px;text-align:center;font-family:sans-serif;font-size:12px;color:#92400e;">3</div>
+
+          <div style="background:#d1fae5;padding:14px;border-radius:8px;text-align:center;font-family:sans-serif;font-size:12px;color:#065f46;grid-column:span 2;">4 — spans 2 columns</div>
+
+          <div style="background:#fef3c7;padding:14px;border-radius:8px;text-align:center;font-family:sans-serif;font-size:12px;color:#92400e;">5</div>
+
+        </div>
+
+      </div>
+
+      <div class="tip"><strong>💡 Tip:</strong> <code>1fr</code> means "one fraction of the available space." <code>repeat(3, 1fr)</code> = three equal columns.</div>
+
+    </div>
+
+  </div>
+
+  <!-- Lesson 7 -->
+
+  <div class="lesson" id="l7">
+
+    <div class="lesson-header" onclick="toggle('l7')">
+
+      <div class="lesson-num">07</div>
+
+      <div class="lesson-title">Transitions & Hover Effects</div>
+
+      <div class="lesson-tag tag-core">Core</div>
+
+      <span class="toggle-icon">›</span>
+
+    </div>
+
+    <div class="lesson-body">
+
+      <div class="explanation">
+
+        Animate style changes smoothly with <code>transition</code>. Combine with <code>:hover</code>, <code>:focus</code>, or <code>:active</code> pseudo-classes.
+
+      </div>
+
+      <div class="code-block">
+
+        <div class="code-bar"><span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span><span class="code-filename">style.css</span></div>
+
+        <pre><span class="sel">.button</span> {
+
+  <span class="prop">background</span>: <span class="val">#6366f1</span>;
+
+  <span class="prop">color</span>: <span class="val">white</span>;
+
+  <span class="prop">padding</span>: <span class="val">12px 24px</span>;
+
+  <span class="prop">border-radius</span>: <span class="val">8px</span>;
+
+  <span class="prop">transition</span>: <span class="val">all 0.25s ease</span>; <span class="cm">/* smooth change */</span>
+
+}
+
+<span class="sel">.button:hover</span> {
+
+  <span class="prop">background</span>: <span class="val">#4f46e5</span>;
+
+  <span class="prop">transform</span>: <span class="val">translateY(-3px)</span>;
+
+  <span class="prop">box-shadow</span>: <span class="val">0 8px 20px rgba(99,102,241,.4)</span>;
+
+}</pre>
+
+      </div>
+
+      <div class="preview-label">Live Preview — hover the buttons!</div>
+
+      <div class="preview-box" style="display:flex;gap:12px;flex-wrap:wrap;">
+
+        <button style="background:#6366f1;color:white;padding:12px 24px;border-radius:8px;border:none;cursor:pointer;font-size:14px;font-family:sans-serif;transition:all .25s ease;" onmouseover="this.style.background='#4f46e5';this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 20px rgba(99,102,241,.4)';" onmouseout="this.style.background='#6366f1';this.style.transform='';this.style.boxShadow='';">Hover Me</button>
+
+        <button style="background:white;color:#6366f1;padding:12px 24px;border-radius:8px;border:2px solid #6366f1;cursor:pointer;font-size:14px;font-family:sans-serif;transition:all .25s ease;" onmouseover="this.style.background='#6366f1';this.style.color='white';" onmouseout="this.style.background='white';this.style.color='#6366f1';">Outline Button</button>
+
+      </div>
+
+      <div class="tip"><strong>💡 Tip:</strong> <code>transform: translateY(-3px)</code> lifts an element up — a very popular micro-interaction for buttons.</div>
+
+    </div>
+
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Cheat Sheet -->
+
+  <div class="section-label">Quick Reference</div>
+
+  <div class="section-title">CSS Cheat Sheet</div>
+
+  <p class="section-desc">The most-used properties at a glance.</p>
+
+  <div class="cheat-grid">
+
+    <div class="cheat-card">
+
+      <h4>Text</h4>
+
+      <ul>
+
+        <li>color <span>#333</span></li>
+
+        <li>font-size <span>16px / 1rem</span></li>
+
+        <li>font-weight <span>400 / 700</span></li>
+
+        <li>line-height <span>1.5</span></li>
+
+        <li>text-align <span>left/center</span></li>
+
+        <li>letter-spacing <span>.05em</span></li>
+
+      </ul>
+
+    </div>
+
+    <div class="cheat-card">
+
+      <h4>Box Model</h4>
+
+      <ul>
+
+        <li>padding <span>top right bot left</span></li>
+
+        <li>margin <span>auto (center)</span></li>
+
+        <li>border <span>2px solid red</span></li>
+
+        <li>border-radius <span>8px / 50%</span></li>
+
+        <li>box-shadow <span>0 4px 12px …</span></li>
+
+        <li>box-sizing <span>border-box</span></li>
+
+      </ul>
+
+    </div>
+
+    <div class="cheat-card">
+
+      <h4>Layout</h4>
+
+      <ul>
+
+        <li>display <span>flex / grid</span></li>
+
+        <li>justify-content <span>center</span></li>
+
+        <li>align-items <span>center</span></li>
+
+        <li>gap <span>16px</span></li>
+
+        <li>grid-template-cols <span>repeat(3,1fr)</span></li>
+
+        <li>flex-wrap <span>wrap</span></li>
+
+      </ul>
+
+    </div>
+
+    <div class="cheat-card">
+
+      <h4>Sizing</h4>
+
+      <ul>
+
+        <li>width <span>100% / 200px</span></li>
+
+        <li>max-width <span>1200px</span></li>
+
+        <li>height <span>100vh</span></li>
+
+        <li>min-height <span>60px</span></li>
+
+        <li>overflow <span>hidden / scroll</span></li>
+
+        <li>aspect-ratio <span>16/9</span></li>
+
+      </ul>
+
+    </div>
+
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Next Steps -->
+
+  <div class="section-label">What's Next</div>
+
+  <div class="section-title">Keep Learning</div>
+
+  <p class="section-desc">Once you're comfortable with these basics, explore these topics.</p>
+
+  <div class="next-grid">
+
+    <div class="next-card">
+
+      <div class="icon">📱</div>
+
+      <h4>Responsive Design</h4>
+
+      <p>Media queries to style for different screen sizes.</p>
+
+    </div>
+
+    <div class="next-card">
+
+      <div class="icon">🎞</div>
+
+      <h4>CSS Animations</h4>
+
+      <p>@keyframes for multi-step animations.</p>
+
+    </div>
+
+    <div class="next-card">
+
+      <div class="icon">🎨</div>
+
+      <h4>CSS Variables</h4>
+
+      <p>--custom-properties for theming & consistency.</p>
+
+    </div>
+
+    <div class="next-card">
+
+      <div class="icon">🔢</div>
+
+      <h4>Specificity</h4>
+
+      <p>Understand how CSS decides which rule wins.</p>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+  function toggle(id) {
+
+    const el = document.getElementById(id);
+
+    el.classList.toggle('open');
+
+  }
+
+</script>
+
+</body>
+
+</html>

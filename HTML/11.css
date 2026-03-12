@@ -1,0 +1,16 @@
+p {
+  color: coral;
+}
+.box {
+  background-color: teal;
+
+  color: gold;
+
+  padding: 20px;
+}
+#text {
+  background: linear-gradient(135deg, purple, rgb(108, 233, 18));
+
+  color: hotpink;
+  padding: 20px;
+}
